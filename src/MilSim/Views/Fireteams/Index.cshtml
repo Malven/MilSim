@@ -1,0 +1,65 @@
+@model IEnumerable<MilSim.Models.Fireteam>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FireteamName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Member1)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Member2)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Member3)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Member4)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Member5)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FireteamName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Member1)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Member2)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Member3)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Member4)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Member5)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.FireteamId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.FireteamId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.FireteamId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

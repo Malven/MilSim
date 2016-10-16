@@ -1,0 +1,47 @@
+@model IEnumerable<MilSim.Models.Operation>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.OperationDescription)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OperationTitle)
+            </th>
+            <th>Fireteams</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.OperationDescription)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OperationTitle)
+            </td>
+            @foreach (var team in item.Fireteams ) {
+                <td>
+                    @Html.DisplayFor(xItem => team.FireteamName)
+                </td>
+
+            }
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.OperationId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.OperationId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.OperationId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

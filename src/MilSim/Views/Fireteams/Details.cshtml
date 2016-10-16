@@ -1,0 +1,54 @@
+@model MilSim.Models.Fireteam
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Fireteam</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.FireteamName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.FireteamName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Member1)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Member1)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Member2)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Member2)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Member3)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Member3)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Member4)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Member4)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Member5)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Member5)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.FireteamId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
