@@ -12,6 +12,13 @@ using Microsoft.Extensions.Logging;
 using MilSim.Data;
 using MilSim.Models;
 using MilSim.Services;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
+using AspNet.Security.OpenId.Steam;
+using AspNet.Security.OpenId;
+using System.Security.Claims;
+using System.IdentityModel.Tokens.Jwt;
+using Microsoft.AspNetCore.Authentication;
 
 namespace MilSim
 {
@@ -47,7 +54,9 @@ namespace MilSim
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-            services.AddMvc();
+            services.AddMvc(options => {
+                options.Filters.Add( new RequireHttpsAttribute() );
+            } );
 
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
@@ -72,8 +81,56 @@ namespace MilSim
             }
 
             app.UseStaticFiles();
-
             app.UseIdentity();
+
+            app.UseCookieAuthentication( new CookieAuthenticationOptions()
+            {
+                AutomaticAuthenticate = true,
+                CookieName = "MyApp",
+                CookieSecure = CookieSecurePolicy.Always,
+                AuthenticationScheme = "Cookies"
+            } );
+
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap = new Dictionary<string, string>();
+
+            //TODO Facebook
+            //app.UseFacebookAuthentication( new FacebookOptions() {
+            //    AppId = Configuration[ "Authentication:Facebook:AppId" ],
+            //    AppSecret = Configuration[ "Authentication:Facebook:AppSecret" ]
+            //} );
+
+            //TODO byta till identityserver4 ?
+            //STEAM OPTIONS
+            var options = new SteamAuthenticationOptions {
+                ApplicationKey = "1678D429F67B9AC88EC696082AFE5F06",
+                CallbackPath = new PathString( "/LoginSteam" ),
+                Events = new OpenIdAuthenticationEvents {
+                    OnAuthenticated = context => {
+                        var identity = context.Ticket.Principal.Identity as ClaimsIdentity;
+
+                        var subject = identity.Claims.FirstOrDefault( z => z.Type.Contains("nameidentifier" ));
+
+                       // var newIdentity = new ClaimsIdentity(
+                       //context.Ticket.AuthenticationScheme,
+                       //"given_name",
+                       //"role" );
+
+                       // context.Ticket = new AuthenticationTicket(
+                       // new ClaimsPrincipal( newIdentity ),
+                       // context.Ticket.Properties,
+                       // context.Ticket.AuthenticationScheme );
+                        
+                        //string role;
+                        //if( context.Attributes.TryGetValue( "role", out role ) ) {
+                        //    context.Identity.AddClaim( new Claim( ClaimTypes.Role, role ) );
+                        //}
+
+                        return Task.FromResult( 0 );
+                    }
+                }
+            };
+
+            app.UseSteamAuthentication( options );
 
             // Add external authentication middleware below. To configure them please see http://go.microsoft.com/fwlink/?LinkID=532715
 

@@ -78,6 +78,9 @@ namespace MilSim.Controllers
                 var result = await _userManager.RemoveLoginAsync(user, account.LoginProvider, account.ProviderKey);
                 if (result.Succeeded)
                 {
+                    user.SteamId = "";
+                    user.SteamName = "";
+                    await _userManager.UpdateAsync( user );
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     message = ManageMessageId.RemoveLoginSuccess;
                 }
@@ -324,6 +327,10 @@ namespace MilSim.Controllers
                 return RedirectToAction(nameof(ManageLogins), new { Message = ManageMessageId.Error });
             }
             var result = await _userManager.AddLoginAsync(user, info);
+            var steamid = info.ProviderKey.Split( '/' );
+            user.SteamId = steamid[ 5 ];
+            user.SteamName = info.Principal.Identity.Name;
+            await _userManager.UpdateAsync( user );
             var message = result.Succeeded ? ManageMessageId.AddLoginSuccess : ManageMessageId.Error;
             return RedirectToAction(nameof(ManageLogins), new { Message = message });
         }

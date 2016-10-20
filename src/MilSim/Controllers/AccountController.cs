@@ -35,6 +35,7 @@ namespace MilSim.Controllers
             _emailSender = emailSender;
             _smsSender = smsSender;
             _logger = loggerFactory.CreateLogger<AccountController>();
+
         }
 
         //
@@ -43,7 +44,7 @@ namespace MilSim.Controllers
         [AllowAnonymous]
         public IActionResult Login(string returnUrl = null)
         {
-            ViewData["ReturnUrl"] = returnUrl;
+            ViewData[ "ReturnUrl"] = returnUrl;
             return View();
         }
 
@@ -197,8 +198,7 @@ namespace MilSim.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ExternalLoginConfirmation(ExternalLoginConfirmationViewModel model, string returnUrl = null)
-        {
+        public async Task<IActionResult> ExternalLoginConfirmation(ExternalLoginConfirmationViewModel model, string returnUrl = null) {
             if (ModelState.IsValid)
             {
                 // Get the information about the user from the external login provider
@@ -208,6 +208,10 @@ namespace MilSim.Controllers
                     return View("ExternalLoginFailure");
                 }
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                //TODO set username to steam username
+                var steamid = info.ProviderKey.Split( '/' );
+                user.SteamId = steamid[ 5 ];
+                user.SteamName = info.Principal.Identity.Name;
                 var result = await _userManager.CreateAsync(user);
                 if (result.Succeeded)
                 {

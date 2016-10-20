@@ -13,6 +13,7 @@ namespace MilSim
         {
             var host = new WebHostBuilder()
                 .UseKestrel()
+                .UseUrls( "https://localhost:44374" )
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseIISIntegration()
                 .UseStartup<Startup>()

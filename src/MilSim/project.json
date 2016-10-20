@@ -46,8 +46,12 @@
     "Microsoft.EntityFrameworkCore.Design": {
       "version": "1.0.0-preview2-final",
       "type": "build"
-    }
-  },
+    },
+    "Microsoft.AspNetCore.Authentication.Facebook": "1.0.0",
+    "AspNet.Security.OpenId.Steam": "1.0.0-beta1-final",
+    "AspNet.Security.OpenId": "1.0.0-beta1-final",
+    "AspNet.Security.OpenIdConnect.Extensions": "1.0.0-beta6-final",
+    "AspNet.Security.OpenIdConnect.Server": "1.0.0-beta6-final"  },
 
   "tools": {
     "BundlerMinifier.Core": "2.0.238",
