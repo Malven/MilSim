@@ -11,7 +11,5 @@ namespace MilSim.Models
     {
         public string SteamName { get; set; }
         public string SteamId { get; set; }
-
-        public virtual Steam Steam { get; set; }
     }
 }

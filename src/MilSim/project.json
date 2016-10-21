@@ -51,7 +51,8 @@
     "AspNet.Security.OpenId.Steam": "1.0.0-beta1-final",
     "AspNet.Security.OpenId": "1.0.0-beta1-final",
     "AspNet.Security.OpenIdConnect.Extensions": "1.0.0-beta6-final",
-    "AspNet.Security.OpenIdConnect.Server": "1.0.0-beta6-final"  },
+    "AspNet.Security.OpenIdConnect.Server": "1.0.0-beta6-final",
+    "Newtonsoft.Json": "9.0.2-beta1"  },
 
   "tools": {
     "BundlerMinifier.Core": "2.0.238",

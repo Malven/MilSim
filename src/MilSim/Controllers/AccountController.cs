@@ -11,6 +11,7 @@ using Microsoft.Extensions.Logging;
 using MilSim.Models;
 using MilSim.Models.AccountViewModels;
 using MilSim.Services;
+using MilSim.Data;
 
 namespace MilSim.Controllers
 {
@@ -23,19 +24,22 @@ namespace MilSim.Controllers
         private readonly ISmsSender _smsSender;
         private readonly ILogger _logger;
 
+        private readonly ApplicationDbContext _context;
+
         public AccountController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             IEmailSender emailSender,
             ISmsSender smsSender,
-            ILoggerFactory loggerFactory)
+            ILoggerFactory loggerFactory,
+            ApplicationDbContext context )
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
             _smsSender = smsSender;
             _logger = loggerFactory.CreateLogger<AccountController>();
-
+            _context = context;
         }
 
         //
@@ -170,8 +174,7 @@ namespace MilSim.Controllers
 
             // Sign in the user with this external login provider if the user already has a login.
             var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false);
-            if (result.Succeeded)
-            {
+            if (result.Succeeded) {
                 _logger.LogInformation(5, "User logged in with {Name} provider.", info.LoginProvider);
                 return RedirectToLocal(returnUrl);
             }
@@ -218,6 +221,8 @@ namespace MilSim.Controllers
                     result = await _userManager.AddLoginAsync(user, info);
                     if (result.Succeeded)
                     {
+                        SteamFactory sf = new SteamFactory();
+                        sf.UpdateSteamUser( user.SteamId, _context );
                         await _signInManager.SignInAsync(user, isPersistent: false);
                         _logger.LogInformation(6, "User created an account using {Name} provider.", info.LoginProvider);
                         return RedirectToLocal(returnUrl);

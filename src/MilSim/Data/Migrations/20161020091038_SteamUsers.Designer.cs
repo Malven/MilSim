@@ -8,9 +8,10 @@ using MilSim.Data;
 namespace MilSim.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20161020091038_SteamUsers")]
+    partial class SteamUsers
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.1")
@@ -218,7 +219,7 @@ namespace MilSim.Data.Migrations
                     b.ToTable("Operations");
                 });
 
-            modelBuilder.Entity("MilSim.Models.Player", b =>
+            modelBuilder.Entity("MilSim.Models.Steam", b =>
                 {
                     b.Property<string>("steamid");
 

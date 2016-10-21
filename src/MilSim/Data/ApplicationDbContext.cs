@@ -12,6 +12,7 @@ namespace MilSim.Data
     {
         public DbSet<Operation> Operations { get; set; }
         public DbSet<Fireteam> Fireteams { get; set; }
+        public DbSet<Player> Steam { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
